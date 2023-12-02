@@ -6,7 +6,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 Ensure npm is installed on your local machine using:
 
-### 'npm install'
+### `npm install`
 
 In the project directory, you can run:
 

@@ -39,7 +39,8 @@ app.post('/scrape', async (req, res) => {
         console.log(`Section Code: ${sectionCode}, Activity: ${activity}, Days: ${days}, Start Time: ${startTime}, End Time: ${endTime}`);
 
         courseSections.push({
-          sectionCode, // This will be '101', '102', etc.
+          fullSectionCode,
+          sectionCode,
           activity, // This will be 'Lecture', 'Tutorial', etc.
           days, // This will be 'Mon', 'Tue', etc.
           startTime, // This will be '14:00', '9:00', etc.

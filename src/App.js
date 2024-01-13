@@ -2,14 +2,18 @@
 import React from 'react';
 import './App.css';
 import CourseChecklist from './Components/CourseList';
+import { CheckedCoursesProvider } from './Contexts/CheckedCoursesContext';
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <CourseChecklist />
-      </header>
-    </div>
+    <CheckedCoursesProvider>
+      <div className="App">
+        <header className="App-header">
+          <CourseChecklist />
+        </header>
+      </div>
+    </CheckedCoursesProvider>
   );
 }
 

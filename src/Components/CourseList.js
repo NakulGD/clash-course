@@ -1,5 +1,7 @@
 // src/components/CourseChecklist.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useCheckedCourses } from '../Contexts/CheckedCoursesContext';
+
 
 function CourseChecklist() {
   const [course, setCourse] = useState('');
@@ -7,6 +9,12 @@ function CourseChecklist() {
   const [courseSections, setCourseSections] = useState([]);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const { checkedCourses, addCheckedCourse, removeCheckedCourse } = useCheckedCourses();
+
+
+  useEffect(() => {
+    console.log('Checked courses:', checkedCourses);        //////////////////////////////////////////////Debug statement
+  }, [checkedCourses]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -43,11 +51,30 @@ function CourseChecklist() {
     setCourse('');
   };
 
-  const toggleSection = index => {
+  const toggleSection = (section, index) => {
     const newCourseSections = [...courseSections];
-    newCourseSections[index].selected = !newCourseSections[index].selected;
+    newCourseSections[index] = {
+      ...newCourseSections[index],
+      selected: !newCourseSections[index].selected
+    };
     setCourseSections(newCourseSections);
+  
+    const sectionData = {
+      courseCode: `${course} ${newCourseSections[index].fullSectionCode}`,
+      days: newCourseSections[index].days,
+      startTime: newCourseSections[index].startTime,
+      endTime: newCourseSections[index].endTime
+    };
+  
+    if (newCourseSections[index].selected) {
+      addCheckedCourse(sectionData);
+      console.log(`Adding section: ${sectionData.courseCode}`);
+    } else {
+      removeCheckedCourse(sectionData.courseCode);
+      console.log(`Removing section: ${sectionData.courseCode}`);
+    }
   };
+  
 
   return (
     <div>
@@ -77,7 +104,7 @@ function CourseChecklist() {
                   type="checkbox"
                   id={`section-${index}`}
                   checked={section.selected}
-                  onChange={() => toggleSection(index)}
+                  onChange={() => toggleSection(section, index)} // Pass both section and index
                 />
                 <label htmlFor={`section-${index}`}>
                   {section.activity} ({section.sectionCode}) {section.days} {section.startTime}-{section.endTime}

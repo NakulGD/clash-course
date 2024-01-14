@@ -24,6 +24,7 @@ app.post('/scrape', async (req, res) => {
 
       
       if (term === semester && activity !== "Waiting List") { // Match the term with user-selected term
+        const days = [];
 
         // Assuming fullSectionCode is 'CPSC 320 101' or similar
         const fullSectionCode = $(elem).find('a').first().text().trim();
@@ -32,7 +33,14 @@ app.post('/scrape', async (req, res) => {
 
         
         // Correct the Days, Start Time and End Time extraction
-        const days = $(elem).find('td').eq(6).text().trim();
+        const stringDays = $(elem).find('td').eq(6).text().trim();
+        const tempDays = stringDays.split(' ');
+
+        for (i = tempDays.length - 1; i >= 0; i--) {
+          days.push(tempDays[i]);
+        }
+
+
         const startTime = $(elem).find('td').eq(7).text().trim();
         const endTime = $(elem).find('td').eq(8).text().trim();
 

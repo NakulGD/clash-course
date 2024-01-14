@@ -4,7 +4,7 @@ import './Styling/TimeTable.css';
 
 // Define the timetable range
 const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
-const times = ["8:00", "8:30", "9:00", "9:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30", "18:00", "18:30", "19:00", "19:30", "20:00", "20:30", "21:00", "21:30"];
+const times = ["08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30", "18:00", "18:30", "19:00", "19:30", "20:00", "20:30", "21:00", "21:30"];
 
 // const checkedCourses = [
 //     {
@@ -73,7 +73,7 @@ const TimeTable = () => {
                     let [endHour, endMinutes] = course.endTime.split(':').map(Number);
                     // Adjust for 24-hour format if necessary
         
-                    while (startHour < endHour || (startHour === endHour && startMinutes <= endMinutes)) {
+                    while (startHour < endHour /*|| (startHour === endHour && startMinutes <= endMinutes)*/) {
                         let time = `${startHour < 10 ? '0' + startHour : startHour}:${startMinutes === 0 ? '00' : '30'}`;
                         newSelectedCells[`${day}-${time}`] = true;
         
@@ -94,7 +94,7 @@ const TimeTable = () => {
         setCellsForCourses();
     }, [checkedCourses]); 
 
-    console.log(newSelectedCells);
+    //console.log(newSelectedCells);
 
     return (
         <div className="timetable">
@@ -121,7 +121,6 @@ const TimeTable = () => {
                             <td
                                 key={day + '-' + time}
                                 className={newSelectedCells[`${day}-${time}`] ? "selected" : ""}
-                                onClick={() => toggleCell(day, time)}
                             />
                         ))}
                     </tr>

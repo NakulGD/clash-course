@@ -1,0 +1,24 @@
+td {
+    text-align: center;
+    border-right: 1px solid #ddd;
+    border-bottom: 1px dashed #ddd;
+    width: 18%;
+    font-size: 13px;
+}
+
+.selected {
+    background-color: #aeb043;
+}
+
+  td:hover {
+    cursor: pointer;
+    background-color: #D6EEEE;
+}
+
+th {
+  text-align: left;
+  padding-left: 0.5rem;
+  width: 200px;
+  border-right: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+}

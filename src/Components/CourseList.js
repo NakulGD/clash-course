@@ -1,7 +1,6 @@
-// src/components/CourseChecklist.js
 import React, { useState, useEffect } from 'react';
 import { useCheckedCourses } from '../Contexts/CheckedCoursesContext';
-
+import './Styling/CourseList.css';
 
 function CourseChecklist() {
   const [course, setCourse] = useState('');
@@ -11,18 +10,21 @@ function CourseChecklist() {
   const [loading, setLoading] = useState(false);
   const { checkedCourses, addCheckedCourse, removeCheckedCourse } = useCheckedCourses();
 
-
   useEffect(() => {
-    console.log('Checked courses:', checkedCourses);        //////////////////////////////////////////////Debug statement
+    console.log('Checked courses:', checkedCourses);
   }, [checkedCourses]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (!course) return;
+
     setLoading(true);
     setError('');
     setCourseSections([]);
-    try {
+
+
+    try {            /// calling back-end with the stringified course and semester inputs, awaits for response
       const response = await fetch('http://localhost:5000/scrape', {
         method: 'POST',
         headers: {
@@ -33,11 +35,11 @@ function CourseChecklist() {
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
-      const sections = await response.json();
+      const sections = await response.json(); /// 'sections' array is being initialized with the data in the JSON object (expected to be an array)
       if (sections.length === 0) {
         setError(`The course ${course} is not offered in Semester ${semester}.`);
       } else {
-        setCourseSections(sections.map(section => ({ ...section, selected: false })));
+        setCourseSections(sections.map(section => ({ ...section, selected: false })));    /// creates a new 'section' obj for every existing section with a new "selected:" property initialized to 'false'
       }
     } catch (error) {
       if (error.message === 'Network response was not ok') {
@@ -58,14 +60,14 @@ function CourseChecklist() {
       selected: !newCourseSections[index].selected
     };
     setCourseSections(newCourseSections);
-  
+
     const sectionData = {
       courseCode: `${course} ${newCourseSections[index].fullSectionCode}`,
       days: newCourseSections[index].days,
       startTime: newCourseSections[index].startTime,
       endTime: newCourseSections[index].endTime
     };
-  
+
     if (newCourseSections[index].selected) {
       addCheckedCourse(sectionData);
       console.log(`Adding section: ${sectionData.courseCode}`);
@@ -74,21 +76,36 @@ function CourseChecklist() {
       console.log(`Removing section: ${sectionData.courseCode}`);
     }
   };
-  
 
   return (
     <div>
       <form onSubmit={handleSubmit}>
+        <div className="semester-selector">
+          <label>
+            <input
+              type="radio"
+              value="1"
+              checked={semester === '1'}
+              onChange={() => setSemester('1')}
+            />
+            Semester 1
+          </label>
+          <label>
+            <input
+              type="radio"
+              value="2"
+              checked={semester === '2'}
+              onChange={() => setSemester('2')}
+            />
+            Semester 2
+          </label>
+        </div>
         <input
           type="text"
           value={course}
           onChange={(e) => setCourse(e.target.value)}
           placeholder="Course Name"
         />
-        <select value={semester} onChange={(e) => setSemester(e.target.value)}>
-          <option value="1">Semester 1</option>
-          <option value="2">Semester 2</option>
-        </select>
         <button type="submit" disabled={loading}>
           {loading ? 'Loading...' : 'Add Course'}
         </button>
@@ -96,7 +113,7 @@ function CourseChecklist() {
       {error && <div className="error-message">{error}</div>}
       {courseSections.length > 0 && (
         <div>
-          <h3>{course}</h3>
+          <h3>{course}</h3> {/* THIS DOES NOT WORK AS INTENDED*/}
           <ul className='course-sections-list'>
             {courseSections.map((section, index) => (
               <li key={index}>
@@ -107,7 +124,7 @@ function CourseChecklist() {
                   onChange={() => toggleSection(section, index)} // Pass both section and index
                 />
                 <label htmlFor={`section-${index}`}>
-                  {section.activity} ({section.sectionCode}) {section.days} {section.startTime}-{section.endTime}
+                  {section.activity} ({section.sectionCode}) {section.days.join(' ')} {section.startTime}-{section.endTime}
                 </label>
               </li>
             ))}

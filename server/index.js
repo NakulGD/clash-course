@@ -32,11 +32,11 @@ app.post('/scrape', async (req, res) => {
         const sectionCode = parts[parts.length - 1]; // Take the last element of the array which should be '101', 'T1A', etc.
 
         
-        // Correct the Days, Start Time and End Time extraction
+        // Correct the Days (into an array), Start Time and End Time extraction
         const stringDays = $(elem).find('td').eq(6).text().trim();
         const tempDays = stringDays.split(' ');
 
-        for (i = tempDays.length - 1; i >= 0; i--) {
+        for (i = 0; i < tempDays.length; i++) {
           days.push(tempDays[i]);
         }
 
@@ -57,6 +57,18 @@ app.post('/scrape', async (req, res) => {
       }
     });
 
+      // Custom sorting function
+    const sortSections = (a, b) => {
+      const order = {
+        'Lecture': 1,
+        'Laboratory': 2,
+        'Tutorial': 3
+      };
+
+      return (order[a.activity] || 4) - (order[b.activity] || 4);
+    };
+
+    courseSections.sort(sortSections);
     
     res.json(courseSections);
   } catch (error) {

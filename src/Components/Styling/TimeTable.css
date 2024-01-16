@@ -8,6 +8,20 @@ td {
 
 .selected {
     background-color: #aeb043;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: black;
+    border-bottom: 5px #aeb043;
+}
+
+.multiple-selected {
+    background-color: lightcoral; /* Example color for overlapping courses */
+    /* Styles to center text */
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: black;
 }
 
   td:hover {

@@ -16,6 +16,13 @@ function CourseChecklist() {
   const [laboratories, setLaboratories] = useState([]);
   const [tutorials, setTutorials] = useState([]);
 
+  const removeCourse = (courseName) => {
+    const updatedCourseList = allCourses.filter((courseItem) => courseItem.courseName !== courseName)
+
+    setAllCourses(updatedCourseList);
+    localStorage.setItem('courses', JSON.stringify(updatedCourseList));
+  };
+
   const clearSavedCourses = () => {
     localStorage.removeItem('courses');
     setAllCourses([]); // Reset the allCourses state
@@ -113,33 +120,6 @@ function CourseChecklist() {
     setLoading(false);
     setCourse('');
   };
-
-  const toggleSection = (section, index) => {
-    const newCourseSections = [...courseSections];
-    newCourseSections[index] = {
-      ...newCourseSections[index],
-      selected: !newCourseSections[index].selected
-    };
-    setCourseSections(newCourseSections);
-
-    const sectionData = {
-      courseCode: `${course} ${newCourseSections[index].fullSectionCode}`,
-      days: newCourseSections[index].days,
-      startTime: newCourseSections[index].startTime,
-      endTime: newCourseSections[index].endTime
-    };
-
-    /*
-    if (newCourseSections[index].selected) {
-      addCheckedCourse(sectionData);
-      console.log(`Adding section: ${sectionData.courseCode}`);
-    } else {
-      removeCheckedCourse(sectionData.courseCode);
-      console.log(`Removing section: ${sectionData.courseCode}`);
-    }
-    */
-  };
-
   return (
     <div>
       <form onSubmit={handleSubmit}>
@@ -176,7 +156,15 @@ function CourseChecklist() {
 
       {allCourses.length > 0 && (
         allCourses.map((courseItem, index) => (
-          <CourseItem key={index} course={courseItem} />
+          <div key={courseItem.fullSectionCode} className="course-list-item">
+          <CourseItem course={courseItem} />
+          <button 
+            onClick={() => removeCourse(courseItem.courseName)}
+            className="remove-course-btn"
+          >
+            Remove
+          </button>
+        </div>
         ))
       )}
 

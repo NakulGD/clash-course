@@ -14,8 +14,8 @@ export const CheckedCoursesProvider = ({ children }) => {
   };
 
   // Function to remove a course from the checked list
-  const removeCheckedCourse = (courseCode) => {
-    setCheckedCourses(prev => prev.filter(c => c.courseCode !== courseCode));
+  const removeCheckedCourse = (fullSectionCode) => {
+    setCheckedCourses(prev => prev.filter(c => c.fullSectionCode !== fullSectionCode));
   };
 
   return (

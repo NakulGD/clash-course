@@ -46,7 +46,7 @@ const TimeTable = () => {
 
                     newCellStates[cellKey].count++;
                     if (isFirstCell) {
-                        newCellStates[cellKey].courses.push(course.courseCode);
+                        newCellStates[cellKey].courses.push(course.fullSectionCode);
                         isFirstCell = false;
                     }
 

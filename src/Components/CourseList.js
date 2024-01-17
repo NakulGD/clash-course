@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useCheckedCourses } from '../Contexts/CheckedCoursesContext';
+import CourseItem from './CourseItem';
 import './Styling/CourseList.css';
 
 function CourseChecklist() {
@@ -8,11 +9,53 @@ function CourseChecklist() {
   const [courseSections, setCourseSections] = useState([]);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const { checkedCourses, addCheckedCourse, removeCheckedCourse } = useCheckedCourses();
+  //const { checkedCourses, addCheckedCourse, removeCheckedCourse } = useCheckedCourses();
 
+
+  const [lectures, setLectures] = useState([]);
+  const [laboratories, setLaboratories] = useState([]);
+  const [tutorials, setTutorials] = useState([]);
+
+  const clearSavedCourses = () => {
+    localStorage.removeItem('courses');
+    setAllCourses([]); // Reset the allCourses state
+  };
+
+
+  const [allCourses, setAllCourses] = useState(() => {
+    const savedCourses = localStorage.getItem('courses');
+    return savedCourses ? JSON.parse(savedCourses) : [];
+  });
+
+  function logCoursesFromLocalStorage() {
+    const savedCoursesString = localStorage.getItem('courses');
+    if (savedCoursesString) {
+      const savedCourses = JSON.parse(savedCoursesString);
+      console.log('Saved courses:', savedCourses);
+    } else {
+      console.log('No courses found in localStorage');
+    }
+  }
+
+  useEffect(() => {
+    logCoursesFromLocalStorage();
+  }, [allCourses]);
+  
+  
+  
+  function Course(name, lecs, labs, tuts) {
+    this.courseName = name;
+    this.lectures = lecs;
+    this.laboratories = labs;
+    this.tuts = tuts;
+  }
+
+  /*
   useEffect(() => {
     console.log('Checked courses:', checkedCourses);
   }, [checkedCourses]);
+  */
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -40,6 +83,24 @@ function CourseChecklist() {
         setError(`The course ${course} is not offered in Semester ${semester}.`);
       } else {
         setCourseSections(sections.map(section => ({ ...section, selected: false })));    /// creates a new 'section' obj for every existing section with a new "selected:" property initialized to 'false'
+
+        const lectures = sections.filter(section => section.activity === 'Lecture').map(section => ({...section, selected: false}));
+        const laboratories = sections.filter(section => section.activity === 'Laboratory').map(section => ({...section, selected: false}));
+        const tutorials = sections.filter(section => section.activity === 'Tutorial').map(section => ({...section, selected: false}));
+
+        setLectures(lectures);
+        setLaboratories(laboratories);
+        setTutorials(tutorials);
+
+        const listCourse = new Course(course, lectures, laboratories, tutorials);
+
+        console.log("This is the course object: ", listCourse);
+
+        setAllCourses(prevCourses => {
+          const updatedCourses = [...prevCourses, listCourse];
+          localStorage.setItem('courses', JSON.stringify(updatedCourses));
+          return updatedCourses;
+        });
       }
     } catch (error) {
       if (error.message === 'Network response was not ok') {
@@ -68,6 +129,7 @@ function CourseChecklist() {
       endTime: newCourseSections[index].endTime
     };
 
+    /*
     if (newCourseSections[index].selected) {
       addCheckedCourse(sectionData);
       console.log(`Adding section: ${sectionData.courseCode}`);
@@ -75,6 +137,7 @@ function CourseChecklist() {
       removeCheckedCourse(sectionData.courseCode);
       console.log(`Removing section: ${sectionData.courseCode}`);
     }
+    */
   };
 
   return (
@@ -110,27 +173,15 @@ function CourseChecklist() {
           {loading ? 'Loading...' : 'Add Course'}
         </button>
       </form>
-      {error && <div className="error-message">{error}</div>}
-      {courseSections.length > 0 && (
-        <div>
-          <h3>{course}</h3> {/* THIS DOES NOT WORK AS INTENDED*/}
-          <ul className='course-sections-list'>
-            {courseSections.map((section, index) => (
-              <li key={index}>
-                <input
-                  type="checkbox"
-                  id={`section-${index}`}
-                  checked={section.selected}
-                  onChange={() => toggleSection(section, index)} // Pass both section and index
-                />
-                <label htmlFor={`section-${index}`}>
-                  {section.activity} ({section.sectionCode}) {section.days.join(' ')} {section.startTime}-{section.endTime}
-                </label>
-              </li>
-            ))}
-          </ul>
-        </div>
+
+      {allCourses.length > 0 && (
+        allCourses.map((courseItem, index) => (
+          <CourseItem key={index} course={courseItem} />
+        ))
       )}
+
+      <button onClick={clearSavedCourses}>Clear Saved Courses</button>
+      {error && <div className="error-message">{error}</div>}
     </div>
   );
 }

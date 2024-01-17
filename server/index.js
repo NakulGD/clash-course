@@ -46,14 +46,17 @@ app.post('/scrape', async (req, res) => {
 
         console.log(`Section Code: ${sectionCode}, Activity: ${activity}, Days: ${days}, Start Time: ${startTime}, End Time: ${endTime}`);
 
-        courseSections.push({
-          fullSectionCode,
-          sectionCode,
-          activity, // This will be 'Lecture', 'Tutorial', etc.
-          days, // This will be 'Mon', 'Tue', etc.
-          startTime, // This will be '14:00', '9:00', etc.
-          endTime // This will be '15:00', '10:00', etc.
-        });
+        if (!courseSections.some(course => course.fullSectionCode === fullSectionCode)) {
+          courseSections.push({
+            fullSectionCode,
+            sectionCode,
+            activity, // This will be 'Lecture', 'Tutorial', etc.
+            days, // This will be 'Mon', 'Tue', etc.
+            startTime, // This will be '14:00', '9:00', etc.
+            endTime // This will be '15:00', '10:00', etc.
+          });
+        }
+        
       }
     });
 

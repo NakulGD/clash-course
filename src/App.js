@@ -11,8 +11,8 @@ function App() {
     <CheckedCoursesProvider>
       <div className="App">
         <header className="App-header">
-          <CourseChecklist />
-          <TimeTable />
+          <div className = "left"><TimeTable /></div>
+          <div className = "right"><CourseChecklist /></div>
         </header>
       </div>
     </CheckedCoursesProvider>

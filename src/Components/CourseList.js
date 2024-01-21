@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useCheckedCourses } from '../Contexts/CheckedCoursesContext';
+import { CheckedCoursesProvider } from '../Contexts/CheckedCoursesContext';
 import CourseItem from './CourseItem';
 import './Styling/CourseList.css';
 

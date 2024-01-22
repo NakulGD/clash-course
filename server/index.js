@@ -65,10 +65,11 @@ app.post('/scrape', async (req, res) => {
       const order = {
         'Lecture': 1,
         'Laboratory': 2,
-        'Tutorial': 3
+        'Tutorial': 3, 
+        'Discussion': 4
       };
 
-      return (order[a.activity] || 4) - (order[b.activity] || 4);
+      return (order[a.activity] || 5) - (order[b.activity] || 5);
     };
 
     courseSections.sort(sortSections);

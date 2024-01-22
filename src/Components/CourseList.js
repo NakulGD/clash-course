@@ -16,6 +16,7 @@ function CourseChecklist() {
   const [lectures, setLectures] = useState([]);
   const [laboratories, setLaboratories] = useState([]);
   const [tutorials, setTutorials] = useState([]);
+  const [discussions, setDiscussions] = useState([]);
 
   const removeCourse = (courseName) => {
     const updatedCourseList = allCourses.filter((courseItem) => courseItem.courseName !== courseName)
@@ -51,11 +52,12 @@ function CourseChecklist() {
   
   
   
-  function Course(name, lecs, labs, tuts) {
+  function Course(name, lecs, labs, tuts, disc) {
     this.courseName = name;
     this.lectures = lecs;
     this.laboratories = labs;
     this.tuts = tuts;
+    this.discussions = disc;
   }
 
   /*
@@ -95,12 +97,14 @@ function CourseChecklist() {
         const lectures = sections.filter(section => section.activity === 'Lecture').map(section => ({...section, selected: false}));
         const laboratories = sections.filter(section => section.activity === 'Laboratory').map(section => ({...section, selected: false}));
         const tutorials = sections.filter(section => section.activity === 'Tutorial').map(section => ({...section, selected: false}));
+        const discussions = sections.filter(section => section.activity === 'Discussion').map(section => ({...section, selected: false}));
 
         setLectures(lectures);
         setLaboratories(laboratories);
         setTutorials(tutorials);
+        setDiscussions(discussions);
 
-        const listCourse = new Course(course, lectures, laboratories, tutorials);
+        const listCourse = new Course(course, lectures, laboratories, tutorials, discussions);
 
         console.log("This is the course object: ", listCourse);
 

@@ -5,7 +5,7 @@ import { useCheckedCourses } from '../Contexts/CheckedCoursesContext';
 
 const CourseItem = ({ course }) => {
   const [open, setOpen] = useState(false);
-  const [submenuOpen, setSubmenuOpen] = useState({ lectures: false, labs: false, tuts: false });
+  const [submenuOpen, setSubmenuOpen] = useState({ lectures: false, labs: false, tuts: false, disc: false });
   const { checkedCourses, addCheckedCourse, removeCheckedCourse } = useCheckedCourses();
 
 
@@ -84,6 +84,26 @@ const CourseItem = ({ course }) => {
                         onChange={(e) => handleCheckboxChange(tut, e.target.checked)}
                       />
                       <label htmlFor={`tut_${index}`}> ({tut.sectionCode}) {tut.days.join(' ')} {tut.startTime}-{tut.endTime}</label>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          )}
+
+          {course.discussions.length > 0 && (
+            <div className='disc-submenu-container'>
+              <div className='submenu' onClick={() => toggleSubmenu('disc')}>Discussions</div>
+              {submenuOpen.disc && (
+                <ul className='submenu-list disc-item'>
+                  {course.discussions.map((disc, index) => (
+                    <li key={disc.fullSectionCode}>
+                      <input 
+                        type="checkbox" id={`disc_${index}`} 
+                        checked={checkedCourses.some(c => c.fullSectionCode === disc.fullSectionCode)}
+                        onChange={(e) => handleCheckboxChange(disc, e.target.checked)}
+                      />
+                      <label htmlFor={`disc_${index}`}> ({disc.sectionCode}) {disc.days.join(' ')} {disc.startTime}-{disc.endTime}</label>
                     </li>
                   ))}
                 </ul>

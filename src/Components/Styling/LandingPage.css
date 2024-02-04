@@ -1,0 +1,46 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap');
+
+.bg-custom {
+    background-color: #011A35!important;
+  }
+
+.custom-container {
+  background-color: #011A35;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+}
+
+my-button, p {
+  font-family: 'Outfit', sans-serif;
+  color: #E9E4DE;
+}
+
+.my-button {
+    background-color: #99ABC1;
+    color: #011A35;
+    font-size: 1.125rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 0.5rem;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+  }
+  
+  .my-button:hover {
+    background-color: #2F5D7C;
+    color: #E9E4DE;
+  }
+
+p {
+  font-weight: 300;
+  font-size: 1.125
+}
+
+.sign-up-link {
+    text-decoration: underline;
+    cursor: pointer;
+    color: #99ABC1
+  }

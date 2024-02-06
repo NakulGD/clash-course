@@ -1,7 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap');
 
-.bg-custom {
+.card-style {
     background-color: #011A35!important;
+    border: none!important;
   }
 
 .custom-container {
@@ -27,6 +28,7 @@ my-button, p {
     border-radius: 0.5rem;
     padding: 0.5rem 1rem;
     cursor: pointer;
+    text-decoration: none;
   }
   
   .my-button:hover {

@@ -1,9 +1,65 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap');
+
+.timetable-container{
+  /* idk if this workds */
+}
+
+td,
+th {
+  text-align: left;
+  padding: 4px;
+  border-right: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  width: 75px;
+  font-family: 'Outfit';
+  font-weight: 400;
+  font-size: 0.9rem;
+}
+
+th.days {
+  background-color: #FFFFFF!important;
+  color: #011A35;
+}
+
+td:hover,
+th:hover {
+  cursor: pointer;
+  background-color: #E9E4DE;
+}
+
+.selected {
+  background-color: #aeb043;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: black;
+}
+
+.multiple-selected {
+  background-color: lightcoral;
+  /* Styles to center text */
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: black;
+}
+/* 
+table {
+  border-collapse: collapse;
+  width: 100%;
+  background-color: #FFFFFF;
+  border-radius: 15px;
+  color: #011A35;
+  font-family: 'Outfit';
+  font-weight: 300;
+  font-size: 1rem;
+}
+
 td {
-    text-align: center;
-    border-right: 1px solid #ddd;
-    border-bottom: 1px dashed #ddd;
-    width: 18%;
-    font-size: 13px;
+  text-align: left;
+  padding: 4px;
+  border-right: 1px solid #ddd;
+  width: 75px;
 }
 
 .selected {
@@ -16,7 +72,7 @@ td {
 
 .multiple-selected {
     background-color: lightcoral; /* Example color for overlapping courses */
-    /* Styles to center text */
+    /* Styles to center text 
     align-items: center;
     justify-content: center;
     text-align: center;
@@ -25,13 +81,13 @@ td {
 
   td:hover {
     cursor: pointer;
-    background-color: #D6EEEE;
+    background-color: #E9E4DE;
 }
 
 th {
   text-align: left;
-  padding-left: 0.5rem;
-  width: 200px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  padding-left: 2px;
   border-right: 1px solid #ddd;
-  border-bottom: 1px solid #ddd;
-}
+} */

@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useCheckedCourses } from '../Contexts/CheckedCoursesContext';
 import './Styling/TimeTable.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { Container, Table } from 'react-bootstrap';
 
 // Days and times to be displayed in the time table
-const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
-const times = ["08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30", "18:00", "18:30", "19:00", "19:30", "20:00", "20:30", "21:00", "21:30"];
+const days = ["Mon", "Tue", "Wed", "Thu", "Fri"];
+const times = ["08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30", "18:00", "18:30", "19:00", "19:30", "20:00", "20:30", "21:00", "21:30", "22:00", "22:30"];
 
 const TimeTable = () => {
     const { checkedCourses } = useCheckedCourses();
@@ -66,42 +68,51 @@ const TimeTable = () => {
     }, [checkedCourses]);
 
     return (
-        <div className="timetable">
-            <h1>Time Table</h1>
-            <table>
-                <tr>
-                    <th>&nbsp;</th>
-                    {days.map(day => <th key={day}>{day}</th>)}
-                </tr>
-                {times.map(time => (
-                    <tr key={time}>
-                        <th className="time">{time.endsWith('00') ? time : <span>&nbsp;</span>}</th>
-                        {days.map(day => {
-                            const cellKey = `${day}-${time}`;
-                            const cellInfo = cellStates[cellKey];
-
-                            let cellClass = "";
-                            let displayText = "";
-
-                            if (cellInfo) {
-                                cellClass = cellInfo.count > 1 ? "multiple-selected" : "selected";
-                                if (cellInfo.courses.length > 0) {
-                                    displayText = cellInfo.courses.join("  ⚔  ");
-                                    // console.log("This is cellInfo: ", cellInfo);
-                                    // console.log("This is cellInfo.courses: ", cellInfo.courses);
-                                }
-                            }
-
-                            return (
-                                <td key={cellKey} className={cellClass}>
-                                    {displayText}
-                                </td>
-                            );
-                        })}
+        <Container fluid className="timetable-container">
+            <Table bordered hover responsive>
+                <thead>
+                    <tr>
+                        <th>&nbsp;</th>
+                        {days.map(day => (
+                            <th key={day} className="days">
+                            {day}
+                          </th>
+                        ))}
                     </tr>
-                ))}
-            </table>
-        </div>
+                </thead>
+                <tbody>
+                    {times.map(time => (
+                        <tr key={time}>
+                            <td className="time">
+                                {time.endsWith('00') ? time : <span>&nbsp;</span>}
+                            </td>
+                            {days.map(day => {
+                                const cellKey = `${day}-${time}`;
+                                const cellInfo = cellStates[cellKey];
+
+                                let cellClass = "";
+                                let displayText = "";
+
+                                if (cellInfo) {
+                                    cellClass = cellInfo.count > 1 ? "multiple-selected" : "selected";
+                                    if (cellInfo.courses.length > 0) {
+                                        displayText = cellInfo.courses.join("  ⚔  ");
+                                        // console.log("This is cellInfo: ", cellInfo);
+                                        // console.log("This is cellInfo.courses: ", cellInfo.courses);
+                                    }
+                                }
+
+                                return (
+                                    <td key={cellKey} className={cellClass}>
+                                        {displayText}
+                                    </td>
+                                );
+                            })}
+                        </tr>
+                    ))}
+                </tbody>
+            </Table>
+        </Container>
     );
 };
 

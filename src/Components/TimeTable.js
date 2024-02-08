@@ -6,6 +6,7 @@ import { Container, Table } from 'react-bootstrap';
 
 // Days and times to be displayed in the time table
 const days = ["Mon", "Tue", "Wed", "Thu", "Fri"];
+const fullDayNames = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
 const times = ["08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30", "18:00", "18:30", "19:00", "19:30", "20:00", "20:30", "21:00", "21:30", "22:00", "22:30"];
 
 const TimeTable = () => {
@@ -73,7 +74,7 @@ const TimeTable = () => {
                 <thead>
                     <tr>
                         <th>&nbsp;</th>
-                        {days.map(day => (
+                        {fullDayNames.map(day => (
                             <th key={day} className="days">
                             {day}
                           </th>
@@ -83,12 +84,33 @@ const TimeTable = () => {
                 <tbody>
                     {times.map(time => (
                         <tr key={time}>
-                            <td className="time">
+                            <th className="time">
                                 {time.endsWith('00') ? time : <span>&nbsp;</span>}
-                            </td>
+                            </th>
                             {days.map(day => {
+                                
+                                switch (day) {
+                                    case "Mon": 
+                                        day = "Monday";
+                                        break;
+                                    case "Tue": 
+                                        day = "Tuesday";
+                                        break;
+                                    case "Wed": 
+                                        day = "Wednesday";
+                                        break;
+                                    case "Thu": 
+                                        day = "Thursday";
+                                        break;
+                                    case "Fri": 
+                                        day = "Friday";
+                                        break;
+                                }
+                                
                                 const cellKey = `${day}-${time}`;
                                 const cellInfo = cellStates[cellKey];
+
+                                console.log("This is cellKey: ", cellKey);
 
                                 let cellClass = "";
                                 let displayText = "";

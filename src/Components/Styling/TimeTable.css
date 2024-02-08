@@ -2,6 +2,11 @@
 
 .timetable-container{
   /* idk if this workds */
+  width: 120%;
+}
+
+header {
+  padding-left: -50%;
 }
 
 td,
@@ -27,7 +32,7 @@ th:hover {
   background-color: #E9E4DE;
 }
 
-.selected {
+td.selected {
   background-color: #aeb043;
   justify-content: center;
   align-items: center;
@@ -35,7 +40,7 @@ th:hover {
   color: black;
 }
 
-.multiple-selected {
+td.multiple-selected {
   background-color: lightcoral;
   /* Styles to center text */
   align-items: center;
